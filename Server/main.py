@@ -6,9 +6,10 @@ from pymongo import MongoClient
 from pprint import pprint
 import uuid
 # import requests
+import json
 from flask import request
 # from requests.api import request
-
+from bson.json_util import dumps, loads
 # import requests
 # from requests.api import request
 
@@ -43,8 +44,11 @@ app = flask.Flask(__name__)
 @app.route('/',methods=['GET'])
 def get_torrents():
 	# get torrents
-
-	return "Server homepage"
+	body = request.get_json(force=True)
+	print(body)
+	ans = list(torrent.find(body))
+	print(dumps(ans))
+	return dumps(ans)
 
 @app.route('/',methods=['POST'])
 def upload_torrents():

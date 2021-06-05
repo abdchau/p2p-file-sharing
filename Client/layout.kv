@@ -1,0 +1,141 @@
+<Row@BoxLayout>:
+	canvas.before:
+		Color:
+			rgba: 0.5, 0.5, 0.5, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	value: 'Search App'
+	Label:
+		text: root.value
+
+# START TORRENT VIEW
+<ViewTorrentInfo>:
+	canvas:
+		Color:
+			rgba: 0.45, 0.45, 0.45, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	name: "torrent_info"
+	tname: tname
+	# resultArea: resultArea
+	# downloadsArea: downloadsArea
+	# search_box: search_box
+	orientation: 'vertical'
+	anchor_y: 'top'
+	
+	BoxLayout:
+		orientation: 'vertical'
+
+		Label:
+			id: tname
+			text: 'Hello torrent info'
+# END TORRENT VIEW
+
+# START HOME SCREEN
+<HomeScreen>:
+	canvas:
+		Color:
+			rgba: 0.45, 0.45, 0.45, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	name: "home"
+	resultArea: resultArea
+	downloadsArea: downloadsArea
+	search_box: search_box
+	orientation: 'vertical'
+	anchor_y: 'top'
+
+
+	BoxLayout:
+		orientation: 'vertical'
+		GridLayout:
+			cols: 3
+			rows: 1
+			size_hint_y: None
+			height: dp(96)
+			padding: dp(12)
+			spacing: dp(24)
+			Button:
+				text: 'Upload Torrent'
+				on_press: root.upload_torrent()
+			Button:
+				text: 'Update Index'
+				on_press: root.update_index()
+			Button:
+				text: 'Clear'
+				on_press: root.clear()
+
+	# AnchorLayout:
+		# anchor_y: 'top'
+
+		BoxLayout:
+			size_hint_y: None
+			height: dp(96)
+			padding: dp(5)
+			spacing: dp(5)
+			TextInput:
+				id: search_box
+				size_hint_x: 1.5
+				multiline:False
+				hint_text: 'Search'
+				on_text_validate: root.search(search_box.text)
+				padding: dp(10), dp(10), 0, 0
+			Button:
+				text: 'Search'
+				on_press: root.search(search_box.text)
+	
+	# AnchorLayout:
+	# 	anchor_y: 'top'
+		BoxLayout:
+			orientation: 'horizontal'
+			# cols: 2
+			# rows: 2
+			# size_hint_y: None
+			# height: dp(10)
+			padding: dp(5)
+			spacing: dp(5)
+			Label:
+				height: dp(15)
+				text: 'Search Results'
+				# on_press: root.upload_torrent()
+			Label:
+				height: dp(15)
+				text: 'Downloading'
+				# on_press: root.update_index()
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: dp(5)
+			spacing: dp(5)
+			RecycleView:
+				id: resultArea
+				scroll_type: ['bars', 'content']
+				scroll_wheel_distance: dp(50)
+				padding: dp(10), dp(10), dp(10), dp(10)
+				bar_width: dp(10)
+				viewclass: 'Button'
+				RecycleBoxLayout:
+					default_size: None, dp(64)
+					default_size_hint: 1, None
+					size_hint_y: None
+					height: self.minimum_height
+					orientation: 'vertical'
+					spacing: dp(2)
+
+			RecycleView:
+				id: downloadsArea
+				scroll_type: ['bars', 'content']
+				scroll_wheel_distance: dp(114)
+				padding: dp(10), dp(10), dp(10), dp(10)
+				bar_width: dp(10)
+				viewclass: 'Button'
+				RecycleBoxLayout:
+					default_size: None, dp(64)
+					default_size_hint: 1, None
+					size_hint_y: None
+					height: self.minimum_height
+					orientation: 'vertical'
+					spacing: dp(2)
+# END HOME SCREEN

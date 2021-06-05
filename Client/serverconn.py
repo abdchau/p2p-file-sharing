@@ -6,8 +6,9 @@ class ServerConn:
 		pass
 
 	def get_torrents(self, query):
-		torrents = requests.get(self.api_address, {'query' : query})
-		return torrents
+		torrents = requests.get(self.api_address, json={'name' : query})
+		print(torrents.json())
+		return torrents.json()
 
 	def upload_torrent(self, name, owner_ip, size, pieces_info, peers_info):
 		response = requests.post(self.api_address, json={"name" : name, "owner_ip" : owner_ip, "size" : size,
