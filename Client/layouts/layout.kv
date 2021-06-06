@@ -9,41 +9,7 @@
 	Label:
 		text: root.value
 
-# START TORRENT VIEW
-<ViewTorrentInfo>:
-	canvas:
-		Color:
-			rgba: 0.45, 0.45, 0.45, 1
-		Rectangle:
-			size: self.size
-			pos: self.pos
-	name: "torrent_info"
-	tname: tname
-	# resultArea: resultArea
-	# downloadsArea: downloadsArea
-	# search_box: search_box
-	orientation: 'vertical'
-	anchor_y: 'top'
-	
-	BoxLayout:
-		orientation: 'vertical'
 
-		Label:
-			id: tname
-			text: 'Hello torrent info'
-# END TORRENT VIEW
-
-# START CREATE TORRENT
-<CreateTorrent>
-	canvas:
-		Color:
-			rgba: 0.45, 0.45, 0.45, 1
-		Rectangle:
-			size: self.size
-			pos: self.pos
-	name: "create_torrent"
-	
-# END CREATE TORRENT
 
 
 # START HOME SCREEN

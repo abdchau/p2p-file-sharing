@@ -1,4 +1,5 @@
 from random import sample
+import os
 from string import ascii_lowercase
 from flask.wrappers import Response
 
@@ -9,7 +10,8 @@ from kivy.uix.screenmanager import ScreenManager
 from homeScreen import HomeScreen
 from viewTorrentInfo import ViewTorrentInfo
 
-Builder.load_file('layout.kv')
+for layout in os.listdir('layouts'):
+	Builder.load_file(os.path.join('layouts', layout))
 
 
 class MyManager(ScreenManager):
