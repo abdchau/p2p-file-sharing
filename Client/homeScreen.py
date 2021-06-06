@@ -10,7 +10,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 
-from serverconn import ServerConn
+from communication.serverconn import ServerConn
 
 
 class WrappedLabel(Label):

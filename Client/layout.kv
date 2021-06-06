@@ -33,6 +33,19 @@
 			text: 'Hello torrent info'
 # END TORRENT VIEW
 
+# START CREATE TORRENT
+<CreateTorrent>
+	canvas:
+		Color:
+			rgba: 0.45, 0.45, 0.45, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	name: "create_torrent"
+	
+# END CREATE TORRENT
+
+
 # START HOME SCREEN
 <HomeScreen>:
 	canvas:
@@ -62,7 +75,7 @@
 				text: 'Upload Torrent'
 				on_press: root.upload_torrent()
 			Button:
-				text: 'Update Index'
+				text: 'Create Torrent'
 				on_press: root.update_index()
 			Button:
 				text: 'Clear'
