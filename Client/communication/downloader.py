@@ -4,7 +4,7 @@ import json
 import os
 import random
 
-from config import PIECE_SIZE, server
+from config import PIECE_SIZE, server, idh
 
 # request: { file_id: , piece_seq_no: }
 
@@ -25,37 +25,47 @@ class Downloader:
 		self.downloaded = None
 		self.peers = dict()
 
-	def get_piece(self, seq_num, piece_size, file_size, peer):
+	def get_piece(self, seq_num, piece_size, peer):
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		sock.connect((peer[0], peer[1]))
 		request = json.dumps({ 'file_id': self.torrent_info['file_id'], 'piece_seq_no': seq_num,
 					'piece_size': piece_size, 'file_size': self.torrent_info['size'] })
 		sock.send(request.encode())
-		print('Sent')
+		print('Request for piece sent')
 		response = sock.recv(1024)
-		print('Received')
+		print('Piece received')
 		sock.close()
-		print(response)
+		# print(response)
 		return response
 
-	def write_piece(self, seq_num, piece_size, file_size, peer):
+	def write_piece(self, file_name, seq_num, piece_size, peer):
 		start = seq_num * piece_size
 
-		if not os.path.isfile('new'+self.torrent_info['file_id']):
-			open('new'+self.torrent_info['file_id'], 'w').close()
+		os.makedirs('downloads', exist_ok=True)
 
-		with open('new'+self.torrent_info['file_id'], 'r+b') as f:
+		if not os.path.isfile(file_name):
+			open(file_name, 'w').close()
+
+		with open(file_name, 'r+b') as f:
 			f.seek(start)
-			f.write(self.get_piece(seq_num, piece_size, file_size, peer))
+			f.write(self.get_piece(seq_num, piece_size, peer))
+		server.update_piece_peer(self.torrent_info['file_id'], seq_num, idh.id)
 
 	def download(self):
+		file_name = os.path.join('downloads', self.torrent_info['file_name'])
 		# self.torrent_info = next((item for item in torrents if item['id'] == self.torrent_info['file_id']), None)
 		if self.torrent_info is not None:
-			for piece in self.torrent_info['pieces_info']:
-				if piece['peers'][0] not in self.peers:
-					self.peers[piece['peers'][0]] = server.get_peer(piece['peers'][0])
-				print(piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][0]])
-				self.write_piece(piece['piece_seq_no'], PIECE_SIZE, 414, self.peers[piece['peers'][0]])
+			# random.shuffle(self.torrent_info['pieces_info'])
+			for piece in random.sample(self.torrent_info['pieces_info'], len(self.torrent_info['pieces_info'])):
+				idx = random.randint(0, len(piece['peers'])-1)
+				print(idx)
+				if piece['peers'][idx] not in self.peers:
+					self.peers[piece['peers'][idx]] = server.get_peer(piece['peers'][idx])
+				print(piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
+				self.write_piece(file_name, piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
+		
+		idh.seeding[self.torrent_info['file_id']] = os.path.abspath(file_name)
+		idh.dump_ids()
 
 			
 

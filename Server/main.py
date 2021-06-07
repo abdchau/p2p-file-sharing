@@ -83,5 +83,14 @@ def get_peer():
 	print(p)
 	return dumps(p['sock'])
 
+@app.route('/piece',methods=['POST'])
+def update_piece_peer():
+	body = request.get_json(force=True)
+	print(body)
+	file = torrent.find_one({'file_id': body['file_id']})
+	file['pieces_info'][body['piece_seq_no']]['peers'].append(body['new_peer'])
+	torrent.update_one({'file_id': body['file_id']}, {'$set': {'pieces_info': file['pieces_info']}})
+	return 'Peer added'
+
 if __name__=='__main__':
 	app.run(debug=True)
