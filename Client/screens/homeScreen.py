@@ -13,6 +13,10 @@ class HomeScreen(Screen):
 		# server = ServerConn()
 		self.downloadsArea.data = [{'text': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
 
+	def on_enter(self, *args):
+		self.manager.transition.direction = 'left'
+		return super().on_enter(*args)
+
 	def upload_torrent(self):
 		self.manager.current = 'create_torrent'
 

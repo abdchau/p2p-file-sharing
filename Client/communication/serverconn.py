@@ -6,7 +6,7 @@ class ServerConn:
 
 	def get_torrents(self, query):
 		torrents = requests.get(self.api_address, json={'file_name' : query})
-		print(torrents.json())
+		# print(torrents.json())
 		return torrents.json()
 
 	def upload_torrent(self, file_id, file_name, size, pieces_info):
@@ -17,4 +17,9 @@ class ServerConn:
 	def broadcast_seeder_port(self, id, sock):
 		print(id, sock.getsockname())
 		response = requests.post(self.api_address+'/id', json={"id" : id, 'sock': sock.getsockname()})
-		# return response
+		return response
+
+	def get_peer(self, id):
+		response = requests.get(self.api_address+'/peer', json={"id" : id})
+		print(response.json())
+		return response.json()

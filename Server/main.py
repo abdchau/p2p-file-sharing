@@ -48,13 +48,13 @@ def get_torrents():
 	body = request.get_json(force=True)
 	print(body)
 	ans = list(torrent.find(body))
-	print(dumps(ans))
+	# print(dumps(ans))
 	return dumps(ans)
 
 @app.route('/',methods=['POST'])
 def upload_torrents():
 	try:
-		print(request)
+		# print(request)
 		body = request.get_json(force=True)
 		torrent.insert_one(body)
 		
@@ -65,7 +65,7 @@ def upload_torrents():
 @app.route('/id',methods=['GET'])
 def get_id():
 	uu = str(uuid.uuid4())
-	print(uu)
+	# print(uu)
 	return dumps({'id': uu})
 
 @app.route('/id',methods=['POST'])
@@ -74,6 +74,14 @@ def update_port():
 	print(body)
 	peer.update_one({'id': body['id']}, {'$set': {'sock': body['sock']}}, upsert=True)
 	return 'Socket info updated'
+
+@app.route('/peer',methods=['GET'])
+def get_peer():
+	body = request.get_json(force=True)
+	print(body)
+	p = peer.find_one({'id':body['id']})
+	print(p)
+	return dumps(p['sock'])
 
 if __name__=='__main__':
 	app.run(debug=True)

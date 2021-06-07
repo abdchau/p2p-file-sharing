@@ -1,4 +1,3 @@
-#:kivy `2.0`
 # START CREATE TORRENT
 <CreateTorrent>
 	canvas:
@@ -43,8 +42,22 @@
 				# padding: dp(12)
 				# spacing: dp(24)
 				on_press: root.choose_file()
-		Button:
-			text: 'Create Torrent'
-			on_press: root.create_torrent()
+		GridLayout:
+			cols: 2
+			rows: 1
+			size_hint_y: None
+			height: dp(96)
+			padding: dp(12)
+			spacing: dp(24)
+			# pos_hint: {'top':1}
+			Button:
+				text: 'Create Torrent'
+				on_press: root.create_torrent()
+			Button:
+				text: 'Back'
+				on_press:
+					root.manager.current = 'home'
+					root.manager.transition.direction = 'right'
+                
 
 # END CREATE TORRENT

@@ -1,4 +1,3 @@
-#:kivy `2.0`
 # START TORRENT VIEW
 <ViewTorrentInfo>:
 	canvas:
@@ -25,6 +24,11 @@
 		Label:
 			id: tsize
 			text: 'Torrent size'
+		Button:
+			text: 'Back'
+			on_press:
+				root.manager.current = 'home'
+				root.manager.transition.direction = 'right'
 		Button:
 			text: 'Download this torrent'
 			on_press: root.download()

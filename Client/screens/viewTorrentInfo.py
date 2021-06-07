@@ -1,3 +1,5 @@
+from _thread import start_new_thread
+
 from kivy.uix.screenmanager import Screen
 from communication.downloader import Downloader
 
@@ -13,7 +15,7 @@ class ViewTorrentInfo(Screen):
 		self.tsize.text = str(self.manager.current_torrent_info['size']) + ' bytes'
 
 	def download(self):
-		dn = Downloader(self.manager.current_torrent_info['file_name'])
-		# dn.download()
+		dn = Downloader(self.manager.current_torrent_info)
+		start_new_thread(dn.download, ())
 		print('Downloading...')
 		pass
