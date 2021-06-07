@@ -3,7 +3,6 @@ import requests
 class ServerConn:
 	def __init__(self):
 		self.api_address = 'http://127.0.0.1:5000'
-		pass
 
 	def get_torrents(self, query):
 		torrents = requests.get(self.api_address, json={'name' : query})

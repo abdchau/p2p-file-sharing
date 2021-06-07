@@ -46,12 +46,12 @@ class CreateTorrent(Screen):
 		super().__init__(**kw)
 		self.torrent_info = None
 		self.server = ServerConn()
-		self.file_name = 'None'
+		self.file_name = None
 
 	def on_enter(self, *args):
 		super().on_enter(*args)
+		self.file_name = None
 		# self.tname.text = self.manager.current_torrent_info['name']
-		return
 
 	def choose_file(self):
 		print('choosing file')
@@ -61,10 +61,18 @@ class CreateTorrent(Screen):
 
 	def file_selected(self, file_name):
 		self.file_name = file_name
+		self.name_label.text = self.file_name
 		print(self.file_name)
 
 	def create_torrent(self):
-		size = os.stat(self.file_name).st_size
+		if self.file_name is not None:
+			size = os.stat(self.file_name).st_size
+			print(size)
+		else:
+			content = Button(text='Dismiss')
+			popup = Popup(title="No file selected!", content=content, size_hint=(0.4, 0.2), auto_dismiss=False)
+			content.bind(on_press=popup.dismiss)
+			popup.open()
 
 
 	def upload_torrent(self):

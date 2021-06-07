@@ -10,6 +10,7 @@ from kivy.uix.screenmanager import ScreenManager
 from screens.homeScreen import HomeScreen
 from screens.viewTorrentInfo import ViewTorrentInfo
 from screens.createTorrent import CreateTorrent
+from config import idH
 
 for layout in os.listdir('layouts'):
 	Builder.load_file(os.path.join('layouts', layout))

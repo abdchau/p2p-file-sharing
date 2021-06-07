@@ -61,5 +61,11 @@ def upload_torrents():
 	except Exception as e:
 		return e.__str__()
 
+@app.route('/id',methods=['GET'])
+def get_id():
+	uu = str(uuid.uuid4())
+	print(uu)
+	return dumps({'id': uu})
+
 if __name__=='__main__':
 	app.run(debug=True)

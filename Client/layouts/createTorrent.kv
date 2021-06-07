@@ -6,25 +6,44 @@
 		Rectangle:
 			size: self.size
 			pos: self.pos
+	orientation: 'vertical'
+	anchor_y: 'top'
 	name: "create_torrent"
+	name_label: name_label
+	
+	BoxLayout:
+		# anchor_y: 'top'
+		orientation: 'vertical'
+		# pos_hint: {'top':1}
+		GridLayout:
+			cols: 2
+			rows: 1
+			size_hint_y: None
+			height: dp(96)
+			padding: dp(12)
+			spacing: dp(24)
+			pos_hint: {'top':1}
+			Label:
+				id: name_label
+				text: 'Selected file appears here'
+				pos_hint: {'left':1, 'top':1}
+				# spacing: (20,20)
+				# size_hint_y: None
+				# halign: 'left'
 
-	Label:
-		id: file_name
-		text: 'Selected file appears here'
-		pos_hint: {'left':1, 'top':1}
-		spacing: (20,20)
-		size_hint: None, None
-		
-	Button:
-		id: choose_file
-		text: 'Choose File'
-		pos_hint: {'right':1, 'top':1}
-		spacing: (20,20)
-		size_hint: None, None
-		height: dp(96)
-		width: dp(300)
-		# padding: dp(12)
-		# spacing: dp(24)
-		on_press: root.choose_file()
+			Button:
+				id: choose_file
+				text: 'Choose File'
+				pos_hint: {'right':1, 'top':1}
+				spacing: (20,20)
+				size_hint: None, None
+				height: dp(96)
+				width: dp(300)
+				# padding: dp(12)
+				# spacing: dp(24)
+				on_press: root.choose_file()
+		Button:
+			text: 'Create Torrent'
+			on_press: root.create_torrent()
 
 # END CREATE TORRENT
