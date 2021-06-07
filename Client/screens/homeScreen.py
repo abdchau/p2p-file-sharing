@@ -29,7 +29,7 @@ class HomeScreen(Screen):
 				content.bind(on_press=popup.dismiss)
 				popup.open()
 			else:
-				self.resultArea.data = [{'text': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in results]
+				self.resultArea.data = [{'text': result['file_name'], 'on_press': partial(self.torrent_info, content=result)} for result in results]
 				self.resultArea.refresh_from_data()
 			print("Elapsed Time: " + str(time.process_time() - start))
 		except Exception as e:

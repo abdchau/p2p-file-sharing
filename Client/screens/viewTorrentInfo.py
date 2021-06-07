@@ -9,11 +9,11 @@ class ViewTorrentInfo(Screen):
 
 	def on_enter(self, *args):
 		super().on_enter(*args)
-		self.tname.text = self.manager.current_torrent_info['name']
-		self.tsize.text = self.manager.current_torrent_info['size']
+		self.tname.text = self.manager.current_torrent_info['file_name']
+		self.tsize.text = str(self.manager.current_torrent_info['size']) + ' bytes'
 
 	def download(self):
-		dn = Downloader(self.manager.current_torrent_info['name'])
+		dn = Downloader(self.manager.current_torrent_info['file_name'])
 		# dn.download()
 		print('Downloading...')
 		pass

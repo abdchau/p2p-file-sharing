@@ -3,8 +3,7 @@ import socket
 import json
 import random
 
-from config import server
-from config import idh
+from config import server, idh
 
 # request: { file_id: , piece_seq_no: , piece_size: , file_size:  }
 
@@ -18,6 +17,7 @@ class Seeder:
 		print(self.sock)
 	
 	def loop(self):
+		server.broadcast_seeder_port(idh.id, self.sock)
 		while True:
 			s, addr = self.sock.accept()
 			print("New connection accepted: ", s, addr)

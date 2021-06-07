@@ -19,6 +19,7 @@ client = MongoClient()
 # Connect to db
 db=client.bittorrent
 torrent = db.torrent
+peer = db.peer
 
 # Use the condition to choose the record
 # and use the update method
@@ -66,6 +67,13 @@ def get_id():
 	uu = str(uuid.uuid4())
 	print(uu)
 	return dumps({'id': uu})
+
+@app.route('/id',methods=['POST'])
+def update_port():
+	body = request.get_json(force=True)
+	print(body)
+	peer.update_one({'id': body['id']}, {'$set': {'sock': body['sock']}}, upsert=True)
+	return 'Socket info updated'
 
 if __name__=='__main__':
 	app.run(debug=True)
