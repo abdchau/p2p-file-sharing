@@ -1,20 +1,16 @@
 from functools import partial
 import time
-from _thread import start_new_thread
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 
-from communication.serverconn import ServerConn
-from communication.seeder import Seeder
+from config import server, seeder
 
 class HomeScreen(Screen):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.server = ServerConn()
-		self.seeder = None
-		start_new_thread(self.initialize_seeder, ())
+		# server = ServerConn()
 		self.downloadsArea.data = [{'text': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
 
 	def upload_torrent(self):
@@ -25,7 +21,7 @@ class HomeScreen(Screen):
 
 		try:
 			start = time.process_time()
-			results = self.server.get_torrents(query)
+			results = server.get_torrents(query)
 			if not results:
 				content = Button(text='Dismiss')
 				self.clear()
@@ -50,6 +46,3 @@ class HomeScreen(Screen):
 	def clear(self):
 		self.resultArea.data = []
 		self.search_box.text = ""
-
-	def initialize_seeder(self):
-		self.seeder = Seeder()

@@ -14,13 +14,21 @@ class IDHandler:
 				self.id = data['id']
 				self.seeding = data['seeding']
 		except:
-			with open(self.ids_file, 'w') as f:
-				self.id = self.get_id_from_server()
-				self.seeding = []
-				json.dump({'id': self.id, 'seeding': self.seeding}, f)
+			self.id = self.get_id_from_server()
+			self.seeding = dict()
+			self.dump_ids()
 		print(self.id)
-
 
 	def get_id_from_server(self):
 		response = requests.get(self.__api_address).json()
 		return response['id']
+
+	def assign_id_to_file(self, file_name):
+		file_id = self.get_id_from_server()
+		self.seeding[file_id] = file_name
+		self.dump_ids()
+		return file_id
+
+	def dump_ids(self):
+		with open(self.ids_file, 'w') as f:
+			json.dump({'id': self.id, 'seeding': self.seeding}, f)

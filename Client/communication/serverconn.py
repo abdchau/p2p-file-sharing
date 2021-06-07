@@ -5,11 +5,11 @@ class ServerConn:
 		self.api_address = 'http://127.0.0.1:5000'
 
 	def get_torrents(self, query):
-		torrents = requests.get(self.api_address, json={'name' : query})
+		torrents = requests.get(self.api_address, json={'file_id' : query})
 		print(torrents.json())
 		return torrents.json()
 
-	def upload_torrent(self, name, owner_ip, size, pieces_info, peers_info):
-		response = requests.post(self.api_address, json={"name" : name, "owner_ip" : owner_ip, "size" : size,
-											"pieces_info" : pieces_info, "peers_info" : peers_info})
+	def upload_torrent(self, file_id, file_name, size, pieces_info):
+		response = requests.post(self.api_address, json={"file_id" : file_id, 'file_name': file_name,
+									 "size" : size, "pieces_info" : pieces_info})
 		return response
