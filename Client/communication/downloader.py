@@ -58,18 +58,12 @@ class Downloader:
 			# random.shuffle(self.torrent_info['pieces_info'])
 			for piece in random.sample(self.torrent_info['pieces_info'], len(self.torrent_info['pieces_info'])):
 				idx = random.randint(0, len(piece['peers'])-1)
-				print(idx)
+				print(idx, 'PEER NO. CHOSEN')
 				if piece['peers'][idx] not in self.peers:
 					self.peers[piece['peers'][idx]] = server.get_peer(piece['peers'][idx])
 				print(piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
 				self.write_piece(file_name, piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
-		
-		idh.seeding[self.torrent_info['file_id']] = os.path.abspath(file_name)
-		idh.dump_ids()
 
-			
-
-
-if __name__=='__main__':
-	dn = Downloader('main.py')
-	dn.download()
+				if self.torrent_info['file_id'] not in idh.seeding:
+					idh.seeding[self.torrent_info['file_id']] = os.path.abspath(file_name)
+					idh.dump_ids()
