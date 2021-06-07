@@ -4,7 +4,7 @@ import json
 import os
 import random
 
-from config import PIECE_SIZE, server, idh
+from config import server, idh
 
 # request: { file_id: , piece_seq_no: }
 
@@ -41,8 +41,6 @@ class Downloader:
 	def write_piece(self, file_name, seq_num, piece_size, peer):
 		start = seq_num * piece_size
 
-		os.makedirs('downloads', exist_ok=True)
-
 		if not os.path.isfile(file_name):
 			open(file_name, 'w').close()
 
@@ -53,6 +51,7 @@ class Downloader:
 
 	def download(self):
 		file_name = os.path.join('downloads', self.torrent_info['file_name'])
+		os.makedirs('downloads', exist_ok=True)
 		# self.torrent_info = next((item for item in torrents if item['id'] == self.torrent_info['file_id']), None)
 		if self.torrent_info is not None:
 			# random.shuffle(self.torrent_info['pieces_info'])
@@ -61,8 +60,8 @@ class Downloader:
 				print(idx, 'PEER NO. CHOSEN')
 				if piece['peers'][idx] not in self.peers:
 					self.peers[piece['peers'][idx]] = server.get_peer(piece['peers'][idx])
-				print(piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
-				self.write_piece(file_name, piece['piece_seq_no'], PIECE_SIZE, self.peers[piece['peers'][idx]])
+				print(piece['piece_seq_no'], self.torrent_info['piece_size'], self.peers[piece['peers'][idx]])
+				self.write_piece(file_name, piece['piece_seq_no'], self.torrent_info['piece_size'], self.peers[piece['peers'][idx]])
 
 				if self.torrent_info['file_id'] not in idh.seeding:
 					idh.seeding[self.torrent_info['file_id']] = os.path.abspath(file_name)

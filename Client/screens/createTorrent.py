@@ -10,7 +10,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.lang import Builder
 import os
 
-from config import server, idh, PIECE_SIZE
+from config import server, idh
 
 class Chooser(FileChooserListView):
 	def __init__(self, ct, **kwargs):
@@ -46,6 +46,7 @@ class CreateTorrent(Screen):
 		self.torrent_info = None
 		# server = ServerConn()
 		self.file_name = None
+		self.piece_size = None
 
 	def on_enter(self, *args):
 		super().on_enter(*args)
@@ -63,6 +64,10 @@ class CreateTorrent(Screen):
 		self.name_label.text = self.file_name
 		print(self.file_name)
 
+	def set_piece_size(self, piece_size):
+		self.piece_size = int(piece_size)
+		print(self.piece_size)
+
 	def create_torrent(self):
 		if self.file_name is not None:
 			self.upload_torrent()
@@ -75,13 +80,13 @@ class CreateTorrent(Screen):
 
 	def upload_torrent(self):
 		size = os.stat(self.file_name).st_size
-		num_pieces = (size - 1) // PIECE_SIZE + 1
+		num_pieces = (size - 1) // self.piece_size + 1
 		print(size)
 		
 		file_id = idh.assign_id_to_file(self.file_name)
 		pieces_info = [{'piece_seq_no': i, 'peers': [idh.id]} for i in range(num_pieces)]
 		file_name = os.path.basename(self.file_name)
-		response = server.upload_torrent(file_id, file_name, size, pieces_info)
+		response = server.upload_torrent(file_id, file_name, size, pieces_info, self.piece_size)
 		content = Button(text='Dismiss')
 		popup = Popup(title=response.text, content=content, size_hint=(0.5, 0.2), auto_dismiss=False)
 

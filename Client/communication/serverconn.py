@@ -9,9 +9,9 @@ class ServerConn:
 		# print(torrents.json())
 		return torrents.json()
 
-	def upload_torrent(self, file_id, file_name, size, pieces_info):
+	def upload_torrent(self, file_id, file_name, size, pieces_info, piece_size):
 		response = requests.post(self.api_address, json={"file_id" : file_id, 'file_name': file_name,
-									 "size" : size, "pieces_info" : pieces_info})
+									 "size" : size, "pieces_info" : pieces_info, 'piece_size': piece_size})
 		return response
 
 	def broadcast_seeder_port(self, id, sock):

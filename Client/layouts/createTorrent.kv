@@ -59,5 +59,19 @@
 					root.manager.current = 'home'
 					root.manager.transition.direction = 'right'
                 
-
+		BoxLayout:
+			size_hint_y: None
+			height: dp(96)
+			padding: dp(5)
+			spacing: dp(5)
+			TextInput:
+				id: piece_size_input
+				size_hint_x: 1.5
+				multiline:False
+				hint_text: 'Enter piece size in bytes'
+				on_text_validate: root.set_piece_size(piece_size_input.text)
+				padding: dp(10), dp(10), 0, 0
+			Button:
+				text: 'Enter piece size in bytes'
+				on_press: root.set_piece_size(piece_size_input.text)
 # END CREATE TORRENT

@@ -88,7 +88,8 @@ def update_piece_peer():
 	body = request.get_json(force=True)
 	print(body)
 	file = torrent.find_one({'file_id': body['file_id']})
-	file['pieces_info'][body['piece_seq_no']]['peers'].append(body['new_peer'])
+	if body['new_peer'] not in file['pieces_info'][body['piece_seq_no']]['peers']:
+		file['pieces_info'][body['piece_seq_no']]['peers'].append(body['new_peer'])
 	torrent.update_one({'file_id': body['file_id']}, {'$set': {'pieces_info': file['pieces_info']}})
 	return 'Peer added'
 

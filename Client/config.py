@@ -4,7 +4,7 @@ from _thread import start_new_thread
 import time
 
 # in bytes
-PIECE_SIZE = 256
+# PIECE_SIZE = 256
 idh = IDHandler()
 server = ServerConn()
 
