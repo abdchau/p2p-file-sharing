@@ -7,5 +7,24 @@
 			size: self.size
 			pos: self.pos
 	name: "create_torrent"
-	
+
+	Label:
+		id: file_name
+		text: 'Selected file appears here'
+		pos_hint: {'left':1, 'top':1}
+		spacing: (20,20)
+		size_hint: None, None
+		
+	Button:
+		id: choose_file
+		text: 'Choose File'
+		pos_hint: {'right':1, 'top':1}
+		spacing: (20,20)
+		size_hint: None, None
+		height: dp(96)
+		width: dp(300)
+		# padding: dp(12)
+		# spacing: dp(24)
+		on_press: root.choose_file()
+
 # END CREATE TORRENT

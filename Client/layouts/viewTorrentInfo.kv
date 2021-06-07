@@ -8,6 +8,7 @@
 			pos: self.pos
 	name: "torrent_info"
 	tname: tname
+	tsize: tsize
 	# resultArea: resultArea
 	# downloadsArea: downloadsArea
 	# search_box: search_box
@@ -19,5 +20,11 @@
 
 		Label:
 			id: tname
-			text: 'Hello torrent info'
+			text: 'Torrent name'
+		Label:
+			id: tsize
+			text: 'Torrent size'
+		Button:
+			text: 'Download this torrent'
+			on_press: root.download()
 # END TORRENT VIEW

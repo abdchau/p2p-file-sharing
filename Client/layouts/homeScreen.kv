@@ -1,17 +1,3 @@
-<Row@BoxLayout>:
-	canvas.before:
-		Color:
-			rgba: 0.5, 0.5, 0.5, 1
-		Rectangle:
-			size: self.size
-			pos: self.pos
-	value: 'Search App'
-	Label:
-		text: root.value
-
-
-
-
 # START HOME SCREEN
 <HomeScreen>:
 	canvas:
@@ -31,20 +17,17 @@
 	BoxLayout:
 		orientation: 'vertical'
 		GridLayout:
-			cols: 3
+			cols: 2
 			rows: 1
 			size_hint_y: None
 			height: dp(96)
 			padding: dp(12)
 			spacing: dp(24)
 			Button:
-				text: 'Upload Torrent'
+				text: 'Upload New Torrent'
 				on_press: root.upload_torrent()
 			Button:
-				text: 'Create Torrent'
-				on_press: root.update_index()
-			Button:
-				text: 'Clear'
+				text: 'Clear Search Results'
 				on_press: root.clear()
 
 	# AnchorLayout:

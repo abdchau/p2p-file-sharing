@@ -1,55 +1,24 @@
 from functools import partial
 import time
+from _thread import start_new_thread
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
-from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
-
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.floatlayout import FloatLayout
 
 from communication.serverconn import ServerConn
-
-
-class WrappedLabel(Label):
-	def __init__(self, **kwargs):
-		super().__init__(**kwargs)
-		self.bind(
-			width=lambda *x:
-			self.setter('text_size')(self, (self.width, None)),
-			texture_size=lambda *x: self.setter('height')(self, self.texture_size[1]))
-
-class TorrentView(Popup):
-	def __init__(self, content):
-		super().__init__(title=content['name'], size_hint=(1., 1.))
-		self.title_size = 20
-		box = BoxLayout(orientation='vertical', spacing=10, padding=10)
-		box.add_widget(WrappedLabel(text=content['owner_ip'], size_hint=(1.0, 0.2), font_size="14sp"))
-		scroll = ScrollView()
-		scroll.add_widget(WrappedLabel(text=content['size'], size_hint=(1.0, None), font_size="20sp"))
-		box.add_widget(scroll)
-
-		box.add_widget(Button(text="Download", on_press=self.dismiss, size_hint=(1., 0.15)))
-		box.add_widget(Button(text="Back", on_press=self.dismiss, size_hint=(1., 0.15)))
-		self.content = box
-		self.open()
+from communication.seeder import Seeder
 
 class HomeScreen(Screen):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self.server = ServerConn()
+		self.seeder = None
+		start_new_thread(self.initialize_seeder, ())
 		self.downloadsArea.data = [{'text': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
 
 	def upload_torrent(self):
-		response = self.server.upload_torrent('name', 'owner_ip', 'size', 'pieces_info', 'peers_info')
-		content = Button(text='Dismiss')
-		popup = Popup(title=response.text, content=content, size_hint=(0.5, 0.2), auto_dismiss=False)
-
-		content.bind(on_press=popup.dismiss)
-		popup.open()
-		# self.searcher.lexicon = load_lexicon(update=True)
+		self.manager.current = 'create_torrent'
 
 	def search(self, query):
 		print(query)
@@ -82,5 +51,5 @@ class HomeScreen(Screen):
 		self.resultArea.data = []
 		self.search_box.text = ""
 
-	def open_torrent(self, content=None):
-		return TorrentView(content)
+	def initialize_seeder(self):
+		self.seeder = Seeder()

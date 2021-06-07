@@ -1,4 +1,5 @@
 from kivy.uix.screenmanager import Screen
+from communication.downloader import Downloader
 
 class ViewTorrentInfo(Screen):
 	def __init__(self, **kw):
@@ -9,4 +10,10 @@ class ViewTorrentInfo(Screen):
 	def on_enter(self, *args):
 		super().on_enter(*args)
 		self.tname.text = self.manager.current_torrent_info['name']
-		return
+		self.tsize.text = self.manager.current_torrent_info['size']
+
+	def download(self):
+		dn = Downloader(self.manager.current_torrent_info['name'])
+		# dn.download()
+		print('Downloading...')
+		pass
