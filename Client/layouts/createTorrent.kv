@@ -1,55 +1,58 @@
-# START CREATE TORRENT
+#:kivy 2.0.0
 <CreateTorrent>
+	name: 'create_torrent'
+	name_label: name_label
 	canvas:
 		Color:
 			rgba: 0.45, 0.45, 0.45, 1
 		Rectangle:
 			size: self.size
 			pos: self.pos
-	orientation: 'vertical'
-	anchor_y: 'top'
-	name: "create_torrent"
-	name_label: name_label
-	
 	BoxLayout:
-		# anchor_y: 'top'
 		orientation: 'vertical'
-		# pos_hint: {'top':1}
+
+		BoxLayout:
+			orientation: 'vertical'				
+			padding: dp(50), dp(50), dp(50), dp(20)
+			spacing: dp(20)
+
+			TextInput:
+				id: torrent_name_text
+				multiline:False
+				hint_text: 'Name of torrent'
+				on_text: root.set_torrent_name(self.text)
+
+			TextInput:
+				id: torrent_desc_text
+				multiline:True
+				hint_text: 'Description'
+				on_text: root.set_torrent_description(self.text)
+
 		GridLayout:
 			cols: 2
-			rows: 1
-			size_hint_y: None
-			height: dp(96)
-			padding: dp(12)
-			spacing: dp(24)
-			pos_hint: {'top':1}
+			rows: 2
+			spacing: dp(40)
+			padding: dp(50), dp(20), dp(50), dp(20)
+
+			Label:
+				text: 'Piece size'
+			Spinner:
+				text: '256B'
+				values: '256B', '1KB', '512KB', '1MB', '4MB'
+				on_text:
+					root.set_piece_size(self.text)
 			Label:
 				id: name_label
-				text: 'Selected file appears here'
-				pos_hint: {'left':1, 'top':1}
-				# spacing: (20,20)
-				# size_hint_y: None
-				# halign: 'left'
-
+				text: 'Selected file'
 			Button:
-				id: choose_file
 				text: 'Choose File'
-				pos_hint: {'right':1, 'top':1}
-				spacing: (20,20)
-				size_hint: None, None
-				height: dp(96)
-				width: dp(300)
-				# padding: dp(12)
-				# spacing: dp(24)
 				on_press: root.choose_file()
-		GridLayout:
-			cols: 2
-			rows: 1
-			size_hint_y: None
-			height: dp(96)
-			padding: dp(12)
-			spacing: dp(24)
-			# pos_hint: {'top':1}
+
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: dp(20)
+			padding: dp(50), dp(10), dp(50), dp(20)
+
 			Button:
 				text: 'Create Torrent'
 				on_press: root.create_torrent()
@@ -58,20 +61,3 @@
 				on_press:
 					root.manager.current = 'home'
 					root.manager.transition.direction = 'right'
-                
-		BoxLayout:
-			size_hint_y: None
-			height: dp(96)
-			padding: dp(5)
-			spacing: dp(5)
-			TextInput:
-				id: piece_size_input
-				size_hint_x: 1.5
-				multiline:False
-				hint_text: 'Enter piece size in bytes'
-				on_text_validate: root.set_piece_size(piece_size_input.text)
-				padding: dp(10), dp(10), 0, 0
-			Button:
-				text: 'Enter piece size in bytes'
-				on_press: root.set_piece_size(piece_size_input.text)
-# END CREATE TORRENT

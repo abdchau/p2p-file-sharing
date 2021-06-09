@@ -9,8 +9,9 @@ class ServerConn:
 		# print(torrents.json())
 		return torrents.json()
 
-	def upload_torrent(self, file_id, file_name, size, pieces_info, piece_size):
-		response = requests.post(self.api_address, json={"file_id" : file_id, 'file_name': file_name,
+	def upload_torrent(self,torrent_name, torrent_desc, file_id, file_name, size, pieces_info, piece_size):
+		response = requests.post(self.api_address, json={"torrent_name":torrent_name, "torrent_description": torrent_desc,
+									 "file_id" : file_id, 'file_name': file_name,
 									 "size" : size, "pieces_info" : pieces_info, 'piece_size': piece_size})
 		return response
 

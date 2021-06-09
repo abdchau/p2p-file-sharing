@@ -4,8 +4,13 @@ import time
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
+from kivy.uix.tabbedpanel import TabbedPanel
 
 from config import server, seeder
+
+class ResultsPanel(TabbedPanel):
+    pass
+
 
 class HomeScreen(Screen):
 	def __init__(self, *args, **kwargs):
