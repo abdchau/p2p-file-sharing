@@ -1,0 +1,36 @@
+<TorrentSummary>
+    name: "TorrentSummary"
+    canvas:
+		Color:
+			rgba: 0.6, 0.6, 0.6, 1
+		Rectangle:
+			size: self.size
+			pos: self.pos
+    
+    minimum_height: dp(100)
+
+    GridLayout:
+        size_hint: 0.8, 1
+        rows: 2
+        cols: 2
+
+        spacing:dp(10)
+        padding: dp(10)
+
+        Label:
+            text: "name"
+
+        Label:
+            text: "Peers: 97"
+        
+        Label:
+            text: "Pieces: 20"
+
+        Label:
+            text: "Size"
+
+    BoxLayout:
+        size_hint: 0.2, 1    
+        padding: dp(10)
+        Button:
+            text: "Show Details"

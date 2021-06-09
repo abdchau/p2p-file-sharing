@@ -64,7 +64,7 @@ class CreateTorrent(Screen):
 
 	def file_selected(self, file_name):
 		self.file_name = file_name
-		self.name_label.text = self.file_name if len(self.file_name) < 50 else '...'+self.file_name[-47:]
+		self.name_label.text = self.file_name if len(self.file_name) < 40 else '...'+self.file_name[-37:]
 		print(self.file_name)
 
 	def set_piece_size(self, piece_size):

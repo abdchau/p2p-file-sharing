@@ -1,106 +1,143 @@
 #:kivy 2.0.0
 # START HOME SCREEN
-<HomeScreen>:
+<HomeScreen>
+	name: "home"
 	canvas:
 		Color:
 			rgba: 0.45, 0.45, 0.45, 1
 		Rectangle:
 			size: self.size
 			pos: self.pos
-	name: "home"
-	resultArea: resultArea
-	downloadsArea: downloadsArea
-	search_box: search_box
-	orientation: 'vertical'
-	anchor_y: 'top'
 
+	browseArea: browseArea
+	searchResultsArea: searchResultsArea
+	downloadsArea: downloadsArea
+	seedsArea: seedsArea
+	searchBox: searchBox
 
 	BoxLayout:
-		orientation: 'vertical'
-		GridLayout:
-			cols: 2
-			rows: 1
-			size_hint_y: None
-			height: dp(96)
-			padding: dp(12)
-			spacing: dp(24)
-			Button:
-				text: 'Upload New Torrent'
-				on_press: root.upload_torrent()
-			Button:
-				text: 'Clear Search Results'
-				on_press: root.clear()
-
-	# AnchorLayout:
-		# anchor_y: 'top'
-
+		orientation: "vertical"
 		BoxLayout:
-			size_hint_y: None
-			height: dp(96)
-			padding: dp(5)
-			spacing: dp(5)
-			TextInput:
-				id: search_box
-				size_hint_x: 1.5
-				multiline:False
-				hint_text: 'Search'
-				on_text_validate: root.search(search_box.text)
-				padding: dp(10), dp(10), 0, 0
-			Button:
+			size_hint: 1, 0.2
+			canvas.before:
+				Color:
+					rgba: 1, 1, 1, 1
+				Line:
+					width: 2
+					rectangle: self.x, self.y, self.width, self.height
+			
+			GridLayout:
+
+				rows: 1
+				cols: 2
+				
+				spacing: dp(40)
+				
+				padding: dp(50), dp(20), dp(50), dp(20)
+
+				Button:
+					text: "Upload New Torrent"
+					on_press: root.upload_torrent()
+
+				Button:
+					text: "Preferences"
+
+		TabbedPanel:
+			canvas.before:
+				Color:
+					rgba: 1, 1, 1, 1
+				Line:
+					width: 2
+					rectangle: self.x, self.y, self.width, self.height
+
+			padding: dp(50), dp(20), dp(50), dp(40)
+			do_default_tab: False
+			tab_width: (self.width- dp(100)) / 4 
+			background_color: (180, 180, 180, 1.0)
+
+			TabbedPanelItem:
+				text: 'Browse'
+				RecycleView:
+					id: browseArea
+					scroll_type: ['bars', 'content']
+					scroll_wheel_distance: dp(114)
+					padding: dp(10), dp(10), dp(10), dp(10)
+					bar_width: dp(10)
+					viewclass: 'TorrentSummary'
+					RecycleBoxLayout:
+						default_size: None, dp(64)
+						default_size_hint: 1, None
+						size_hint_y: None
+						height: self.minimum_height
+						orientation: 'vertical'
+						spacing: dp(1)
+
+			TabbedPanelItem:
 				text: 'Search'
-				on_press: root.search(search_box.text)
-	
-	# AnchorLayout:
-	# 	anchor_y: 'top'
-		BoxLayout:
-			orientation: 'horizontal'
-			# cols: 2
-			# rows: 2
-			# size_hint_y: None
-			# height: dp(10)
-			padding: dp(5)
-			spacing: dp(5)
-			Label:
-				height: dp(15)
-				text: 'Search Results'
-				# on_press: root.upload_torrent()
-			Label:
-				height: dp(15)
-				text: 'Downloading'
-				# on_press: root.update_index()
-		BoxLayout:
-			orientation: 'horizontal'
-			padding: dp(5)
-			spacing: dp(5)
-			RecycleView:
-				id: resultArea
-				scroll_type: ['bars', 'content']
-				scroll_wheel_distance: dp(50)
-				padding: dp(10), dp(10), dp(10), dp(10)
-				bar_width: dp(10)
-				viewclass: 'Button'
-				RecycleBoxLayout:
-					default_size: None, dp(64)
-					default_size_hint: 1, None
-					size_hint_y: None
-					height: self.minimum_height
+				BoxLayout:
 					orientation: 'vertical'
-					spacing: dp(2)
+					BoxLayout:
+						size_hint_y: 0.2
+						padding: dp(5)
+						spacing: dp(5)
+						TextInput:
+							id: searchBox
+							size_hint_x: 1.8
+							multiline:False
+							hint_text: 'Search'
+							on_text_validate: root.search(self.text)
+							padding: dp(10), dp(10), 0, 0
+						Button:
+							text: 'Search'
+							on_press: root.search(searchBox.text)					
 
-			RecycleView:
-				id: downloadsArea
-				scroll_type: ['bars', 'content']
-				scroll_wheel_distance: dp(114)
-				padding: dp(10), dp(10), dp(10), dp(10)
-				bar_width: dp(10)
-				viewclass: 'Button'
-				RecycleBoxLayout:
-					default_size: None, dp(64)
-					default_size_hint: 1, None
-					size_hint_y: None
-					height: self.minimum_height
-					orientation: 'vertical'
-					spacing: dp(2)
-		ResultsPanel:
-			id: ding
+
+					RecycleView:
+						id: searchResultsArea
+						scroll_type: ['bars', 'content']
+						scroll_wheel_distance: dp(114)
+						padding: dp(10), dp(10), dp(10), dp(10)
+						bar_width: dp(10)
+						viewclass: 'TorrentSummary'
+						RecycleBoxLayout:
+							default_size: None, dp(64)
+							default_size_hint: 1, None
+							size_hint_y: None
+							height: self.minimum_height
+							orientation: 'vertical'
+							spacing: dp(1)
+
+			TabbedPanelItem:
+				text: 'Downloading'
+
+				RecycleView:
+					id: downloadsArea
+					scroll_type: ['bars', 'content']
+					scroll_wheel_distance: dp(114)
+					padding: dp(10), dp(10), dp(10), dp(10)
+					bar_width: dp(10)
+					viewclass: 'TorrentSummary'
+					RecycleBoxLayout:
+						default_size: None, dp(64)
+						default_size_hint: 1, None
+						size_hint_y: None
+						height: self.minimum_height
+						orientation: 'vertical'
+						spacing: dp(1)
+			TabbedPanelItem:
+				text: 'Seeding'
+				RecycleView:
+					id: seedsArea
+					scroll_type: ['bars', 'content']
+					scroll_wheel_distance: dp(114)
+					padding: dp(10), dp(10), dp(10), dp(10)
+					bar_width: dp(10)
+					viewclass: 'TorrentSummary'
+					RecycleBoxLayout:
+						default_size: None, dp(64)
+						default_size_hint: 1, None
+						size_hint_y: None
+						height: self.minimum_height
+						orientation: 'vertical'
+						spacing: dp(1)
 # END HOME SCREEN
