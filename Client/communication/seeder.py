@@ -1,7 +1,7 @@
 from _thread import start_new_thread
 import socket
 import json
-import random
+import time
 
 from config import server, idh
 
@@ -17,7 +17,15 @@ class Seeder:
 		print(self.sock)
 	
 	def loop(self):
-		server.broadcast_seeder_port(idh.id, self.sock)
+		while True:
+			try:
+				server.broadcast_seeder_port(idh.id, self.sock)
+				print('Seeder port broadcasted')
+				break
+			except:
+				print('Server not found for seeder, trying again in 3s...')
+				time.sleep(3)
+
 		while True:
 			s, addr = self.sock.accept()
 			print("New connection accepted: ", s, addr)

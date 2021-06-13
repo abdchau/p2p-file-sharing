@@ -1,3 +1,4 @@
+#:kivy 2.0.0
 <TorrentSummary>
     name: "TorrentSummary"
     canvas:
@@ -8,6 +9,12 @@
 			pos: self.pos
     
     minimum_height: dp(100)
+    detailButton: detailButton
+    torrentName: "hello"
+    numPeers: "0"
+    numPieces: "0"
+    torrentSize: "0"
+    resultNum: 0
 
     GridLayout:
         size_hint: 0.8, 1
@@ -18,19 +25,21 @@
         padding: dp(10)
 
         Label:
-            text: "name"
+            text: root.torrentName
 
         Label:
-            text: "Peers: 97"
+            text: root.numPeers
         
         Label:
-            text: "Pieces: 20"
+            text: root.numPieces
 
         Label:
-            text: "Size"
+            text: root.torrentSize
 
     BoxLayout:
         size_hint: 0.2, 1    
         padding: dp(10)
+        id: detailButton
         Button:
             text: "Show Details"
+            on_press: root.parent.parent.parent.parent.parent.parent.parent.torrent_info(root.resultNum)
