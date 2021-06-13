@@ -57,20 +57,22 @@
 
 			TabbedPanelItem:
 				text: 'Browse'
-				RecycleView:
-					id: browseArea
-					scroll_type: ['bars', 'content']
-					scroll_wheel_distance: dp(114)
-					padding: dp(10), dp(10), dp(10), dp(10)
-					bar_width: dp(10)
-					viewclass: 'TorrentSummary'
-					RecycleBoxLayout:
-						default_size: None, dp(64)
-						default_size_hint: 1, None
-						size_hint_y: None
-						height: self.minimum_height
-						orientation: 'vertical'
-						spacing: dp(1)
+				BoxLayout:
+
+					RecycleView:
+						id: browseArea
+						scroll_type: ['bars', 'content']
+						scroll_wheel_distance: dp(114)
+						padding: dp(10), dp(10), dp(10), dp(10)
+						bar_width: dp(10)
+						viewclass: 'TorrentSummary'
+						RecycleBoxLayout:
+							default_size: None, dp(64)
+							default_size_hint: 1, None
+							size_hint_y: None
+							height: self.minimum_height
+							orientation: 'vertical'
+							spacing: dp(1)
 
 			TabbedPanelItem:
 				text: 'Search'
@@ -109,35 +111,37 @@
 
 			TabbedPanelItem:
 				text: 'Downloading'
-
-				RecycleView:
-					id: downloadsArea
-					scroll_type: ['bars', 'content']
-					scroll_wheel_distance: dp(114)
-					padding: dp(10), dp(10), dp(10), dp(10)
-					bar_width: dp(10)
-					viewclass: 'TorrentSummary'
-					RecycleBoxLayout:
-						default_size: None, dp(64)
-						default_size_hint: 1, None
-						size_hint_y: None
-						height: self.minimum_height
-						orientation: 'vertical'
-						spacing: dp(1)
+				BoxLayout:
+					RecycleView:
+						id: downloadsArea
+						scroll_type: ['bars', 'content']
+						scroll_wheel_distance: dp(114)
+						padding: dp(10), dp(10), dp(10), dp(10)
+						bar_width: dp(10)
+						viewclass: 'TorrentSummary'
+						RecycleBoxLayout:
+							default_size: None, dp(64)
+							default_size_hint: 1, None
+							size_hint_y: None
+							height: self.minimum_height
+							orientation: 'vertical'
+							spacing: dp(1)
 			TabbedPanelItem:
 				text: 'Seeding'
-				RecycleView:
-					id: seedsArea
-					scroll_type: ['bars', 'content']
-					scroll_wheel_distance: dp(114)
-					padding: dp(10), dp(10), dp(10), dp(10)
-					bar_width: dp(10)
-					viewclass: 'TorrentSummary'
-					RecycleBoxLayout:
-						default_size: None, dp(64)
-						default_size_hint: 1, None
-						size_hint_y: None
-						height: self.minimum_height
-						orientation: 'vertical'
-						spacing: dp(1)
+				BoxLayout:
+					
+					RecycleView:
+						id: seedsArea
+						scroll_type: ['bars', 'content']
+						scroll_wheel_distance: dp(114)
+						padding: dp(10), dp(10), dp(10), dp(10)
+						bar_width: dp(10)
+						viewclass: 'TorrentSummary'
+						RecycleBoxLayout:
+							default_size: None, dp(64)
+							default_size_hint: 1, None
+							size_hint_y: None
+							height: self.minimum_height
+							orientation: 'vertical'
+							spacing: dp(1)
 # END HOME SCREEN

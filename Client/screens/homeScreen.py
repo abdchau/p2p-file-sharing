@@ -17,8 +17,18 @@ class HomeScreen(Screen):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		# server = ServerConn()
-		self.results = []
+		self.search_results = []
 		self.downloadsArea.data = [{'torrent_name': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
+		self.all_torrents = None
+		self.update_browse()
+
+	def update_browse(self):
+		self.all_torrents = server.get_all_torrents()
+		self.browseArea.data = [{'torrentName': 'Name: '+result['torrent_name'],
+						'numPeers': 'Peers: '+ str(max([len(piece['peers']) for piece in result['pieces_info']])),
+						'numPieces': 'Pieces: '+ str(len(result['pieces_info'])), 'torrentSize': 'Size: '+str(result['size'])+' bytes',
+						'resultNum': i, 'type': 'browse'} for i, result in enumerate(self.all_torrents)]
+		self.browseArea.refresh_from_data()
 
 	def on_enter(self, *args):
 		self.manager.transition.direction = 'left'
@@ -32,19 +42,19 @@ class HomeScreen(Screen):
 
 		try:
 			start = time.process_time()
-			self.results = server.get_torrents(query)
-			if not self.results:
+			self.search_results = server.get_torrents(query)
+			if not self.search_results:
 				content = Button(text='Dismiss')
 				self.clear()
 				popup = Popup(title="No results found!", content=content, size_hint=(0.4, 0.2), auto_dismiss=False)
 				content.bind(on_press=popup.dismiss)
 				popup.open()
 			else:
-				print(self.results)
-				self.searchResultsArea.data = [{'torrentName': result['torrent_name'],
+				print(self.search_results)
+				self.searchResultsArea.data = [{'torrentName': 'Name: '+'Name: '+result['torrent_name'],
 						'numPeers': 'Peers: '+ str(max([len(piece['peers']) for piece in result['pieces_info']])),
 						'numPieces': 'Pieces: '+ str(len(result['pieces_info'])), 'torrentSize': 'Size: '+str(result['size'])+' bytes',
-						'resultNum': i} for i, result in enumerate(self.results)]
+						'resultNum': i, 'type': 'search'} for i, result in enumerate(self.search_results)]
 				self.searchResultsArea.refresh_from_data()
 			print("Elapsed Time: " + str(time.process_time() - start))
 		except Exception as e:
@@ -54,13 +64,16 @@ class HomeScreen(Screen):
 			content.bind(on_press=popup.dismiss)
 			popup.open()
 	
-	def torrent_info(self, i):
+	def torrent_info(self, i, type):
 		print('here')
-		self.manager.current_torrent_info = self.results[i]
+		if type == 'search':
+			self.manager.current_torrent_info = self.search_results[i]
+		elif type == 'browse':
+			self.manager.current_torrent_info = self.all_torrents[i]
 		self.manager.current = 'torrent_info'
 
 	
 	def clear(self):
 		self.searchResultsArea.data = []
 		self.searchBox.text = ""
-		self.results = []
+		self.search_results = []

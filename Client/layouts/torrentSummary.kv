@@ -15,6 +15,7 @@
     numPieces: "0"
     torrentSize: "0"
     resultNum: 0
+    type: "browse"
 
     GridLayout:
         size_hint: 0.8, 1
@@ -42,4 +43,4 @@
         id: detailButton
         Button:
             text: "Show Details"
-            on_press: root.parent.parent.parent.parent.parent.parent.parent.torrent_info(root.resultNum)
+            on_press: root.parent.parent.parent.parent.parent.parent.parent.torrent_info(root.resultNum, root.type)
