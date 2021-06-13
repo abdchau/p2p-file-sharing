@@ -23,8 +23,6 @@ class HomeScreen(Screen):
 		self.all_torrents = None
 		self.seeding = None
 		self.update_browse()
-		self.update_download()
-		self.update_seed()
 
 	def update_browse(self):
 		self.all_torrents = server.get_all_torrents()

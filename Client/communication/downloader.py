@@ -75,11 +75,11 @@ class Downloader:
 				idx = random.randint(0, len(piece['peers'])-1)
 				print(idx, 'PEER NO. CHOSEN')
 				# time.sleep(15)
-				if piece['peers'][idx] not in idh.peers:
-					idh.peers[piece['peers'][idx]] = server.get_peer(piece['peers'][idx])
-					idh.dump_ids()
 				count = 0
 				while True:
+					if piece['peers'][idx] not in idh.peers:
+						idh.peers[piece['peers'][idx]] = server.get_peer(piece['peers'][idx])
+						idh.dump_ids()
 					try:
 						count+=1
 						print(piece['piece_seq_no'], self.torrent_info['piece_size'], idh.peers[piece['peers'][idx]])

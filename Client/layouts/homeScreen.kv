@@ -57,6 +57,7 @@
 
 			TabbedPanelItem:
 				text: 'Browse'
+				on_press: root.update_browse()
 				BoxLayout:
 
 					RecycleView:
@@ -111,7 +112,7 @@
 
 			TabbedPanelItem:
 				text: 'Downloading'
-
+				on_press: root.update_download()
 				BoxLayout:
 					RecycleView:
 						id: downloadsArea
@@ -129,6 +130,7 @@
 							spacing: dp(1)
 			TabbedPanelItem:
 				text: 'Seeding'
+				on_press: root.update_seed()
 				BoxLayout:
 					
 					RecycleView:
