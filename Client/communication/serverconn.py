@@ -8,6 +8,11 @@ class ServerConn:
 		torrents = requests.get(self.api_address, json={})
 		return torrents.json()
 
+	def get_seeding_info(self, seeding):
+		torrents = requests.get(self.api_address+'/seeding', json=seeding)
+		return torrents.json()
+
+
 	def get_torrents(self, query):
 		torrents = requests.get(self.api_address, json={'torrent_name' : query})
 		# print(torrents.json())

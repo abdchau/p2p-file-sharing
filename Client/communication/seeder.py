@@ -20,6 +20,7 @@ class Seeder:
 		while True:
 			try:
 				server.broadcast_seeder_port(idh.id, self.sock)
+				print(self.sock)
 				print('Seeder port broadcasted')
 				break
 			except:

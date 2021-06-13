@@ -62,6 +62,15 @@ def upload_torrents():
 	except Exception as e:
 		return e.__str__()
 
+@app.route('/seeding',methods=['GET'])
+def get_seeding_info():
+	# get torrents
+	body = request.get_json(force=True)
+	print(body)
+	ans = list(torrent.find({'file_id': {'$in': body}}))
+	# print(dumps(ans))
+	return dumps(ans)
+
 @app.route('/id',methods=['GET'])
 def get_id():
 	uu = str(uuid.uuid4())

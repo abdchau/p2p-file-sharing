@@ -13,9 +13,13 @@ class IDHandler:
 				data = json.load(f)
 				self.id = data['id']
 				self.seeding = data['seeding']
+				self.downloading = data['downloading']
+				self.peers = data['peers']
 		except:
 			self.id = self.get_id_from_server()
 			self.seeding = dict()
+			self.downloading = dict()
+			self.peers = dict()
 			self.dump_ids()
 		print(self.id)
 
@@ -31,4 +35,5 @@ class IDHandler:
 
 	def dump_ids(self):
 		with open(self.ids_file, 'w') as f:
-			json.dump({'id': self.id, 'seeding': self.seeding}, f)
+			json.dump({'id': self.id, 'seeding': self.seeding, 
+			'downloading': self.downloading, 'peers': self.peers}, f)
