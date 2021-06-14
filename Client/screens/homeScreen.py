@@ -94,9 +94,9 @@ class HomeScreen(Screen):
 		elif type == 'browse':
 			self.manager.current_torrent_info = idh.browse_data[i]
 		elif type == 'down':
-			if len(idh.downloading.keys()) < i + 2: 
-				self.manager.current_torrent_info = idh.downloading[idh.downloading.keys[i]]
-			else:
+			try: 
+				self.manager.current_torrent_info = idh.downloading[list(idh.downloading.keys())[i]]
+			except:
 				content = Button(text='Dismiss')
 				popup = Popup(title="Downloads information has changed. Reopen this tab to view up to date information.", 
 					content=content, size_hint=(0.4, 0.2), auto_dismiss=False)
