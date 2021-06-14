@@ -17,11 +17,7 @@ class TorrentSummary(BoxLayout):
 class HomeScreen(Screen):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		# server = ServerConn()
 		self.search_results = []
-		# self.downloadsArea.data = [{'torrent_name': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
-		# idh.browse_data = None
-		# idh.seed_data = None
 		self.update_browse()
 
 	def update_browse(self):

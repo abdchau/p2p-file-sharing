@@ -5,15 +5,11 @@ import time
 
 from config import server, idh
 
-# request: { file_id: , piece_seq_no: , piece_size: , file_size:  }
-
 class Seeder:
 	def __init__(self):
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.sock.bind(('localhost', 0))
 		self.sock.listen()
-		# t = threading.Thread(target=main_thread)
-		# t.start()
 		print(self.sock)
 	
 	def loop(self):
@@ -30,7 +26,7 @@ class Seeder:
 		while True:
 			s, addr = self.sock.accept()
 			print("New connection accepted: ", s, addr)
-			start_new_thread(self.handle_new_conn, (s,)) # Create new thread with process and connection object
+			start_new_thread(self.handle_new_conn, (s,))
 
 	def get_piece(self, file_id, seq_num, piece_size, file_size):
 		start = seq_num * piece_size
@@ -51,6 +47,5 @@ class Seeder:
 		print(request)
 		if request['file_id']:
 			piece_bytes = self.get_piece(request['file_id'], request['piece_seq_no'], request['piece_size'], request['file_size'])
-			# print(piece_bytes)
 			s.send(piece_bytes)
 		print('Sent')

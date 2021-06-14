@@ -8,24 +8,10 @@ import random
 
 from config import server, idh
 
-# request: { file_id: , piece_seq_no: }
-
-peers = { 0: ['localhost', 56775] }
-
-			# file_id: 
-torrents = [ {'name': 'main.py', 'size': 414, 'piece_size': 128, 'pieces_info':
-						[
-							{'piece_seq_no': 0, 'peers': [0]},
-							{'piece_seq_no': 1, 'peers': [0]},
-							{'piece_seq_no': 2, 'peers': [0]}
-						]
-			} ]
-
 class Downloader:
 	def __init__(self, torrent_info):
 		self.torrent_info = torrent_info
 		self.downloaded = None
-		# idh.peers = dict()
 
 	def get_piece(self, seq_num, piece_size, peer):
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,7 +23,7 @@ class Downloader:
 		response = sock.recv(1024)
 		print('Piece received')
 		sock.close()
-		# print(response)
+
 		return response
 
 	def write_piece(self, file_name, seq_num, piece_size, peer):
@@ -71,7 +57,6 @@ class Downloader:
 			idh.dump_ids()
 
 		if self.torrent_info is not None:
-			# random.shuffle(self.torrent_info['pieces_info'])
 			for piece in random.sample(self.torrent_info['pieces_info'], len(self.torrent_info['pieces_info'])):
 				idx = random.randint(0, len(piece['peers'])-1)
 				print(idx, 'PEER NO. CHOSEN')

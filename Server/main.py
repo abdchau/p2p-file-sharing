@@ -1,17 +1,10 @@
 # import socket
 import flask
-import sqlite3
-# Import the python libraries
 from pymongo import MongoClient
 from pprint import pprint
 import uuid
-# import requests
-import json
 from flask import request
-# from requests.api import request
 from bson.json_util import dumps, loads
-# import requests
-# from requests.api import request
 
 # Choose the appropriate client
 client = MongoClient()
@@ -20,25 +13,6 @@ client = MongoClient()
 db=client.bittorrent
 torrent = db.torrent
 peer = db.peer
-
-# Use the condition to choose the record
-# and use the update method
-# db.torrent.update_one(
-#         {"Age":'42'},
-#         {
-#         "$set": {
-#             "Name":"Srinidhi",
-#             "Age":'35',
-#             "Address":"New Omsk, WC"
-#         }
-#         }
-# )
-	
-
-# Queryresult = torrent.find_one({'Age':'35'})
-
-# pprint(Queryresult)
-
 
 app = flask.Flask(__name__)
 
