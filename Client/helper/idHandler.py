@@ -7,6 +7,8 @@ class IDHandler:
 	def __init__(self):
 		self.__api_address = 'http://127.0.0.1:5000/id'
 		self.ids_file = 'helper/ids_data.json'
+		self.browse_file = 'helper/browse_data.json'
+		self.seed_file = 'helper/seed_data.json'
 
 		try:
 			with open(self.ids_file, 'r') as f:
@@ -21,6 +23,17 @@ class IDHandler:
 			self.downloading = dict()
 			self.peers = dict()
 			self.dump_ids()
+		
+		try:
+			with open(self.browse_file, 'r') as f:
+				self.browse_data = json.load(f)
+		except:
+			self.browse_data = dict()
+		try:
+			with open(self.seed_file, 'r') as f:
+				self.seed_data = json.load(f)
+		except:
+			self.seed_data = dict()
 		print(self.id)
 
 	def get_id_from_server(self):
@@ -37,3 +50,11 @@ class IDHandler:
 		with open(self.ids_file, 'w') as f:
 			json.dump({'id': self.id, 'seeding': self.seeding, 
 			'downloading': self.downloading, 'peers': self.peers}, f)
+	
+	def dump_browse(self):
+		with open(self.browse_file, 'w') as f:
+			json.dump(self.browse_data, f)
+	
+	def dump_seed(self):
+		with open(self.seed_file, 'w') as f:
+			json.dump(self.seed_data, f)

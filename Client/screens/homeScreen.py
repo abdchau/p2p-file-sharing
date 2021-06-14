@@ -20,20 +20,24 @@ class HomeScreen(Screen):
 		# server = ServerConn()
 		self.search_results = []
 		# self.downloadsArea.data = [{'torrent_name': result['name'], 'on_press': partial(self.torrent_info, content=result)} for result in [{'name':'test'}]]*5
-		self.all_torrents = None
-		self.seeding = None
+		# idh.browse_data = None
+		# idh.seed_data = None
 		self.update_browse()
 
 	def update_browse(self):
-		self.all_torrents = server.get_all_torrents()
+		try:
+			idh.browse_data = server.get_all_torrents()
+			idh.dump_browse()
+		except:
+			print('Server not available. Cached browse data displayed.')
 		self.browseArea.data = [{'torrentName': 'Name: '+result['torrent_name'],
 						'numPeers': 'Peers: '+ str(max([len(piece['peers']) for piece in result['pieces_info']])),
 						'numPieces': 'Pieces: '+ str(len(result['pieces_info'])), 'torrentSize': 'Size: '+str(result['size'])+' bytes',
-						'resultNum': i, 'type': 'browse'} for i, result in enumerate(self.all_torrents)]
+						'resultNum': i, 'type': 'browse'} for i, result in enumerate(idh.browse_data)]
 		self.browseArea.refresh_from_data()
 
 	def update_download(self):
-		# self.all_torrents = server.get_all_torrents()
+		# idh.browse_data = server.get_all_torrents()
 		self.downloadsArea.data = [{'torrentName': 'Name: '+idh.downloading[key]['torrent_name'],
 						'numPeers': 'Peers: '+ str(max([len(piece['peers']) for piece in idh.downloading[key]['pieces_info']])),
 						'numPieces': 'Pieces: '+ str(len(idh.downloading[key]['pieces_info'])), 'torrentSize': 'Size: '+str(idh.downloading[key]['size'])+' bytes',
@@ -41,11 +45,16 @@ class HomeScreen(Screen):
 		self.downloadsArea.refresh_from_data()
 
 	def update_seed(self):
-		self.seeding = server.get_seeding_info(list(idh.seeding.keys()))
+		try:
+			idh.seed_data = server.get_seeding_info(list(idh.seeding.keys()))
+			idh.dump_seed()
+		except:
+			print('Server not available. Cached seed data displayed.')
+		
 		self.seedsArea.data = [{'torrentName': 'Name: '+result['torrent_name'],
 						'numPeers': 'Peers: '+ str(max([len(piece['peers']) for piece in result['pieces_info']])),
 						'numPieces': 'Pieces: '+ str(len(result['pieces_info'])), 'torrentSize': 'Size: '+str(result['size'])+' bytes',
-						'resultNum': i, 'type': 'browse'} for i, result in enumerate(self.seeding)]
+						'resultNum': i, 'type': 'browse'} for i, result in enumerate(idh.seed_data)]
 		self.seedsArea.refresh_from_data()
 
 	def on_enter(self, *args):
@@ -87,7 +96,7 @@ class HomeScreen(Screen):
 		if type == 'search':
 			self.manager.current_torrent_info = self.search_results[i]
 		elif type == 'browse':
-			self.manager.current_torrent_info = self.all_torrents[i]
+			self.manager.current_torrent_info = idh.browse_data[i]
 		elif type == 'down':
 			self.manager.current_torrent_info = idh.downloading[idh.downloading.keys[i]]
 		self.manager.current = 'torrent_info'
