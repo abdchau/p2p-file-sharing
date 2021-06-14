@@ -25,22 +25,14 @@
 				Line:
 					width: 2
 					rectangle: self.x, self.y, self.width, self.height
+
+			spacing: dp(40)
 			
-			GridLayout:
+			padding: dp(50), dp(20), dp(50), dp(20)
 
-				rows: 1
-				cols: 2
-				
-				spacing: dp(40)
-				
-				padding: dp(50), dp(20), dp(50), dp(20)
-
-				Button:
-					text: "Upload New Torrent"
-					on_press: root.upload_torrent()
-
-				Button:
-					text: "Preferences"
+			Button:
+				text: "Upload New Torrent"
+				on_press: root.upload_torrent()
 
 		TabbedPanel:
 			canvas.before:
