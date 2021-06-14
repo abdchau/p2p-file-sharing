@@ -1,4 +1,3 @@
-from ntpath import join
 from threading import Lock, Thread
 from _thread import start_new_thread
 import socket

@@ -1,36 +1,114 @@
 #:kivy 2.0.0
-# START TORRENT VIEW
-<ViewTorrentInfo>:
+<ViewTorrentInfo>
+	name: "torrent_info"
 	canvas:
 		Color:
 			rgba: 0.45, 0.45, 0.45, 1
 		Rectangle:
 			size: self.size
 			pos: self.pos
-	name: "torrent_info"
 	tname: tname
+	fname: fname
+	fid: fid
+	tdesc: tdesc
+	tpieces: tpieces
 	tsize: tsize
-	# resultArea: resultArea
-	# downloadsArea: downloadsArea
-	# search_box: search_box
-	orientation: 'vertical'
-	anchor_y: 'top'
+	psize: psize
+	npeers: npeers
 	
 	BoxLayout:
 		orientation: 'vertical'
 
-		Label:
-			id: tname
-			text: 'Torrent name'
-		Label:
-			id: tsize
-			text: 'Torrent size'
-		Button:
-			text: 'Back'
-			on_press:
-				root.manager.current = 'home'
-				root.manager.transition.direction = 'right'
-		Button:
-			text: 'Download this torrent'
-			on_press: root.download()
-# END TORRENT VIEW
+		GridLayout:
+			size_hint: 1, 1.4
+			canvas.before:
+				Color:
+					rgba: 0.8, 0.8, 0.8, 1
+				Line:
+					width: 2
+					rectangle: self.x, self.y, self.width, self.height
+
+			cols: 2
+			rows: 4
+			spacing: dp(40)
+			padding: dp(50), dp(20), dp(50), dp(20)
+
+			Label:
+				text: 'Torrent Name:'
+			Label:
+				id: tname
+				text: 'tname'
+			Label:
+				text: 'File Name:'
+			Label:
+				id: fname
+				text: 'fname'
+			Label:
+				text: 'Unique File ID:'
+			Label:
+				id: fid
+				text: 'fid'
+			Label:
+				text: 'Torrent Description:'
+			Label:
+				id: tdesc
+				text: 'tdesc'
+	
+
+		GridLayout:
+			canvas.before:
+				Color:
+					rgba: 0.8, 0.8, 0.8, 1
+				Line:
+					width: 2
+					rectangle: self.x, self.y, self.width, self.height
+
+			cols: 4
+			rows: 2
+			spacing: dp(40)
+			padding: dp(50), dp(20), dp(50), dp(20)
+
+			Label:
+				text: 'Total Pieces:'
+			Label:
+				id: tpieces
+				text: 'tpieces'
+			Label:
+				text: 'File size:'
+			Label:
+				id: tsize
+				text: 'tsize'
+			Label:
+				text: 'Piece size:'
+			Label:
+				id: psize
+				text: 'psize'
+			Label:
+				text: 'No. of Peers:'
+			Label:
+				id: npeers
+				text: 'npeers'
+
+		BoxLayout:
+			orientation: 'vertical'
+			post_hint: {'middle':1}
+			spacing: dp(20)
+			padding: dp(50), dp(20), dp(50), dp(20)
+			canvas.before:
+				Color:
+					rgba: 0.8, 0.8, 0.8, 1
+				Line:
+					width: 2
+					rectangle: self.x, self.y, self.width, self.height
+		
+	
+			Button:
+				text: 'Download'
+				on_press: root.download()
+
+			Button:
+				text: 'Back'
+				on_press:
+					root.manager.current = 'home'
+					root.manager.transition.direction = 'right'
+		
